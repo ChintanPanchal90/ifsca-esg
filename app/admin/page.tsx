@@ -231,7 +231,7 @@ export default function AdminPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-6">
 
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Admin Panel</h1>
           <p className="text-sm text-slate-500 mt-1">Add, edit and delete ESG records</p>
@@ -250,12 +250,12 @@ export default function AdminPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-gray-200">
+      <div className="flex gap-1 border-b border-gray-200 overflow-x-auto">
         {tabs.map((t) => (
           <button
             key={t.key}
             onClick={() => { setTab(t.key); setShowForm(false); setMessage(""); }}
-            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${tab === t.key ? "border-green-600 text-green-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
+            className={`shrink-0 px-3 sm:px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${tab === t.key ? "border-green-600 text-green-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
           >
             {t.label} <span className="ml-1 text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">{t.count}</span>
           </button>
