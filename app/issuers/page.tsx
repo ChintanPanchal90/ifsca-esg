@@ -177,8 +177,36 @@ export default function IssuersPage() {
             </select>
           </div>
 
-          {/* Table */}
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+          {/* Mobile: Cards */}
+          {!loading && filtered.length > 0 && (
+            <div className="block md:hidden space-y-3">
+              {filtered.map((issuer) => (
+                <div key={issuer.id} className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm">
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <div>
+                      <p className="font-semibold text-slate-800">{issuer.name}</p>
+                      {issuer.website && (
+                        <a href={issuer.website} target="_blank" rel="noopener noreferrer" className="text-xs text-green-600 hover:underline">{issuer.website.replace("https://", "")}</a>
+                      )}
+                    </div>
+                    <span className={`text-xs px-2 py-0.5 rounded-full capitalize font-medium shrink-0 ${TYPE_COLORS[issuer.type] ?? "bg-gray-100 text-gray-600"}`}>{issuer.type}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm mt-2">
+                    <span className="text-slate-500 text-xs">{issuer.country} · {issuer.instrument_count} instrument{issuer.instrument_count !== 1 ? "s" : ""}</span>
+                    <span className="font-bold text-slate-800">{issuer.total_usd > 0 ? fmt(issuer.total_usd) : "—"}</span>
+                  </div>
+                  {issuer.instrument_types.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {issuer.instrument_types.map((t) => <span key={t} className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full capitalize">{t}</span>)}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Desktop: Table */}
+          <div className="hidden md:block bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
             {loading ? (
               <div className="p-6 space-y-3">{[...Array(6)].map((_, i) => <div key={i} className="h-14 bg-gray-100 rounded animate-pulse" />)}</div>
             ) : filtered.length === 0 ? (
@@ -238,3 +266,4 @@ export default function IssuersPage() {
     </div>
   );
 }
+

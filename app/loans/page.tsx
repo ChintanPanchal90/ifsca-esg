@@ -151,78 +151,113 @@ export default function LoansPage() {
         </select>
       </div>
 
-      {/* Table */}
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-        {loading ? (
-          <div className="p-6 space-y-3">
-            {[...Array(5)].map((_, i) => <div key={i} className="h-14 bg-gray-100 rounded animate-pulse" />)}
+      {/* Loading */}
+      {loading && (
+        <div className="space-y-3">{[...Array(5)].map((_, i) => <div key={i} className="h-14 bg-white rounded-xl border border-gray-100 animate-pulse" />)}</div>
+      )}
+
+      {/* Empty */}
+      {!loading && filtered.length === 0 && (
+        <div className="bg-white rounded-xl border border-gray-100 py-20 text-center text-slate-400">
+          <p className="text-3xl mb-2">🏦</p>
+          <p className="font-medium text-slate-600">No banks found</p>
+        </div>
+      )}
+
+      {!loading && filtered.length > 0 && (
+        <>
+          {/* Mobile: Cards */}
+          <div className="block md:hidden space-y-3">
+            {filtered.map((b) => (
+              <div key={b.bank_name} className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <p className="font-semibold text-slate-800">{b.bank_name}</p>
+                    <p className="text-xs text-slate-400 mt-0.5">{b.loan_count} loan {b.loan_count === 1 ? "record" : "records"}</p>
+                  </div>
+                  <p className="text-lg font-bold text-slate-800">{fmt(b.total_usd)}</p>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { label: "Green", value: b.green, color: "text-green-600" },
+                    { label: "Social", value: b.social, color: "text-blue-600" },
+                    { label: "Sustainability", value: b.sustainability, color: "text-teal-600" },
+                    { label: "Sust.-Linked", value: b.sustainability_linked, color: "text-purple-600" },
+                    { label: "Transition", value: b.transition, color: "text-orange-600" },
+                  ].filter((c) => c.value > 0).map((c) => (
+                    <div key={c.label} className="bg-slate-50 rounded-lg px-3 py-2">
+                      <p className="text-xs text-slate-400">{c.label}</p>
+                      <p className={`text-sm font-semibold ${c.color}`}>{fmt(c.value)}</p>
+                    </div>
+                  ))}
+                </div>
+                {b.sectors.length > 0 && <p className="text-xs text-slate-400 mt-2">Sectors: {b.sectors.join(", ")}</p>}
+              </div>
+            ))}
           </div>
-        ) : filtered.length === 0 ? (
-          <div className="py-20 text-center text-slate-400">
-            <p className="text-3xl mb-2">🏦</p>
-            <p className="font-medium text-slate-600">No banks found</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-slate-50 border-b border-gray-100">
-                <tr>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Bank</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Total ESG Lending</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Green</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Social</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Sustainability</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Sust.-Linked</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Transition</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Sectors Covered</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Share of Total</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50">
-                {filtered.map((b) => {
-                  const pct = grandTotal > 0 ? Math.round((b.total_usd / grandTotal) * 100) : 0;
-                  return (
-                    <tr key={b.bank_name} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-4 py-4">
-                        <p className="font-semibold text-slate-800">{b.bank_name}</p>
-                        <p className="text-xs text-slate-400 mt-0.5">{b.loan_count} loan {b.loan_count === 1 ? "record" : "records"}</p>
-                      </td>
-                      <td className="px-4 py-4 text-right font-bold text-slate-800">{fmt(b.total_usd)}</td>
-                      <td className="px-4 py-4 text-right text-green-600 font-medium">{b.green > 0 ? fmt(b.green) : "—"}</td>
-                      <td className="px-4 py-4 text-right text-blue-600 font-medium">{b.social > 0 ? fmt(b.social) : "—"}</td>
-                      <td className="px-4 py-4 text-right text-teal-600 font-medium">{b.sustainability > 0 ? fmt(b.sustainability) : "—"}</td>
-                      <td className="px-4 py-4 text-right text-purple-600 font-medium">{b.sustainability_linked > 0 ? fmt(b.sustainability_linked) : "—"}</td>
-                      <td className="px-4 py-4 text-right text-orange-600 font-medium">{b.transition > 0 ? fmt(b.transition) : "—"}</td>
-                      <td className="px-4 py-4 text-slate-500 text-xs">{b.sectors.join(", ")}</td>
-                      <td className="px-4 py-4">
-                        <div className="flex items-center gap-2">
-                          <div className="w-20 bg-gray-100 rounded-full h-1.5">
-                            <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${pct}%` }} />
+
+          {/* Desktop: Table */}
+          <div className="hidden md:block bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-slate-50 border-b border-gray-100">
+                  <tr>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Bank</th>
+                    <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Total ESG Lending</th>
+                    <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Green</th>
+                    <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Social</th>
+                    <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Sustainability</th>
+                    <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Sust.-Linked</th>
+                    <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Transition</th>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Sectors Covered</th>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Share of Total</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  {filtered.map((b) => {
+                    const pct = grandTotal > 0 ? Math.round((b.total_usd / grandTotal) * 100) : 0;
+                    return (
+                      <tr key={b.bank_name} className="hover:bg-slate-50 transition-colors">
+                        <td className="px-4 py-4">
+                          <p className="font-semibold text-slate-800">{b.bank_name}</p>
+                          <p className="text-xs text-slate-400 mt-0.5">{b.loan_count} loan {b.loan_count === 1 ? "record" : "records"}</p>
+                        </td>
+                        <td className="px-4 py-4 text-right font-bold text-slate-800">{fmt(b.total_usd)}</td>
+                        <td className="px-4 py-4 text-right text-green-600 font-medium">{b.green > 0 ? fmt(b.green) : "—"}</td>
+                        <td className="px-4 py-4 text-right text-blue-600 font-medium">{b.social > 0 ? fmt(b.social) : "—"}</td>
+                        <td className="px-4 py-4 text-right text-teal-600 font-medium">{b.sustainability > 0 ? fmt(b.sustainability) : "—"}</td>
+                        <td className="px-4 py-4 text-right text-purple-600 font-medium">{b.sustainability_linked > 0 ? fmt(b.sustainability_linked) : "—"}</td>
+                        <td className="px-4 py-4 text-right text-orange-600 font-medium">{b.transition > 0 ? fmt(b.transition) : "—"}</td>
+                        <td className="px-4 py-4 text-slate-500 text-xs">{b.sectors.join(", ")}</td>
+                        <td className="px-4 py-4">
+                          <div className="flex items-center gap-2">
+                            <div className="w-20 bg-gray-100 rounded-full h-1.5">
+                              <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${pct}%` }} />
+                            </div>
+                            <span className="text-xs text-slate-500">{pct}%</span>
                           </div>
-                          <span className="text-xs text-slate-500">{pct}%</span>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-              {/* Totals row */}
-              <tfoot className="bg-slate-50 border-t-2 border-slate-200">
-                <tr>
-                  <td className="px-4 py-3 font-bold text-slate-800">Total ({filtered.length} banks)</td>
-                  <td className="px-4 py-3 text-right font-bold text-slate-800">{fmt(grandTotal)}</td>
-                  <td className="px-4 py-3 text-right font-bold text-green-600">{fmt(totalGreen)}</td>
-                  <td className="px-4 py-3 text-right font-bold text-blue-600">{fmt(totalSocial)}</td>
-                  <td className="px-4 py-3 text-right font-bold text-teal-600">{fmt(totalSustainability)}</td>
-                  <td className="px-4 py-3 text-right font-bold text-purple-600">{fmt(totalSustainabilityLinked)}</td>
-                  <td className="px-4 py-3 text-right font-bold text-orange-600">{fmt(totalTransition)}</td>
-                  <td colSpan={2} />
-                </tr>
-              </tfoot>
-            </table>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+                <tfoot className="bg-slate-50 border-t-2 border-slate-200">
+                  <tr>
+                    <td className="px-4 py-3 font-bold text-slate-800">Total ({filtered.length} banks)</td>
+                    <td className="px-4 py-3 text-right font-bold text-slate-800">{fmt(grandTotal)}</td>
+                    <td className="px-4 py-3 text-right font-bold text-green-600">{fmt(totalGreen)}</td>
+                    <td className="px-4 py-3 text-right font-bold text-blue-600">{fmt(totalSocial)}</td>
+                    <td className="px-4 py-3 text-right font-bold text-teal-600">{fmt(totalSustainability)}</td>
+                    <td className="px-4 py-3 text-right font-bold text-purple-600">{fmt(totalSustainabilityLinked)}</td>
+                    <td className="px-4 py-3 text-right font-bold text-orange-600">{fmt(totalTransition)}</td>
+                    <td colSpan={2} />
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
           </div>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 }

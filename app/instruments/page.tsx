@@ -49,7 +49,6 @@ export default function InstrumentsPage() {
 
   useEffect(() => {
     let result = [...instruments];
-
     if (search) {
       const q = search.toLowerCase();
       result = result.filter(
@@ -59,41 +58,37 @@ export default function InstrumentsPage() {
           i.sector?.toLowerCase().includes(q)
       );
     }
-
     if (typeFilter !== "all") result = result.filter((i) => i.instrument_type === typeFilter);
     if (sectorFilter !== "all") result = result.filter((i) => i.sector === sectorFilter);
-
     result.sort((a, b) => {
       if (sortBy === "amount_usd") return b.amount_usd - a.amount_usd;
       if (sortBy === "issue_date") return new Date(b.issue_date).getTime() - new Date(a.issue_date).getTime();
       if (sortBy === "title") return a.title.localeCompare(b.title);
       return 0;
     });
-
     setFiltered(result);
   }, [search, typeFilter, sectorFilter, sortBy, instruments]);
 
   const types = ["all", ...Array.from(new Set(instruments.map((i) => i.instrument_type)))];
   const sectors = ["all", ...Array.from(new Set(instruments.map((i) => i.sector).filter(Boolean)))];
   const totalAmount = filtered.reduce((s, i) => s + i.amount_usd, 0);
+  const issuerName = (inst: Instrument) => (inst.issuers as { name: string } | undefined)?.name ?? "—";
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-6">
 
       {/* Header */}
-      <div>
-        <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Bonds</h1>
           <p className="text-sm text-slate-500 mt-1">All ESG-labelled debt instruments registered under GIFT IFSC</p>
         </div>
         <button
-          onClick={() => exportToCsv("bonds.csv", filtered.map((i) => ({ title: i.title, issuer: (i.issuers as { name: string } | undefined)?.name ?? "", type: i.instrument_type, sector: i.sector, amount_usd: i.amount_usd, esg_standard: i.esg_standard, arranger: i.arranger, issue_date: i.issue_date, maturity_date: i.maturity_date, status: i.status })))}
+          onClick={() => exportToCsv("bonds.csv", filtered.map((i) => ({ title: i.title, issuer: issuerName(i), type: i.instrument_type, sector: i.sector, amount_usd: i.amount_usd, esg_standard: i.esg_standard, arranger: i.arranger, issue_date: i.issue_date, maturity_date: i.maturity_date, status: i.status })))}
           className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors"
         >
           ↓ Export CSV
         </button>
-      </div>
       </div>
 
       {/* Filters */}
@@ -132,64 +127,86 @@ export default function InstrumentsPage() {
         </div>
       )}
 
-      {/* Table */}
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-        {loading ? (
-          <div className="p-6 space-y-3">
-            {[...Array(6)].map((_, i) => <div key={i} className="h-12 bg-gray-100 rounded animate-pulse" />)}
+      {/* Loading */}
+      {loading && (
+        <div className="space-y-3">
+          {[...Array(6)].map((_, i) => <div key={i} className="h-20 bg-white rounded-xl border border-gray-100 animate-pulse" />)}
+        </div>
+      )}
+
+      {/* Empty */}
+      {!loading && filtered.length === 0 && (
+        <div className="bg-white rounded-xl border border-gray-100 py-20 text-center text-slate-400">
+          <p className="text-3xl mb-2">📋</p>
+          <p className="font-medium text-slate-600">No instruments found</p>
+          <p className="text-sm mt-1">Try adjusting your filters</p>
+        </div>
+      )}
+
+      {/* Mobile: Cards */}
+      {!loading && filtered.length > 0 && (
+        <>
+          <div className="block md:hidden space-y-3">
+            {filtered.map((inst) => (
+              <Link key={inst.id} href={`/instruments/${inst.id}`} className="block bg-white rounded-xl border border-gray-100 p-4 shadow-sm hover:border-green-200 transition-colors">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <p className="font-semibold text-slate-800 text-sm leading-snug">{inst.title}</p>
+                  <p className="text-sm font-bold text-green-600 shrink-0">{fmt(inst.amount_usd)}</p>
+                </div>
+                <p className="text-xs text-slate-500 mb-2">{issuerName(inst)}</p>
+                <div className="flex flex-wrap gap-1.5">
+                  <span className={`text-xs px-2 py-0.5 rounded-full capitalize font-medium ${TYPE_COLORS[inst.instrument_type] ?? "bg-gray-100 text-gray-600"}`}>{inst.instrument_type}</span>
+                  <span className={`text-xs px-2 py-0.5 rounded-full capitalize font-medium ${STATUS_COLORS[inst.status] ?? "bg-gray-100 text-gray-500"}`}>{inst.status}</span>
+                  {inst.sector && <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">{inst.sector}</span>}
+                  {inst.esg_standard && <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">{inst.esg_standard}</span>}
+                </div>
+                <p className="text-xs text-slate-400 mt-2">Issued: {inst.issue_date ?? "—"} · Matures: {inst.maturity_date ?? "—"}</p>
+              </Link>
+            ))}
           </div>
-        ) : filtered.length === 0 ? (
-          <div className="py-20 text-center text-slate-400">
-            <p className="text-3xl mb-2">📋</p>
-            <p className="font-medium text-slate-600">No instruments found</p>
-            <p className="text-sm mt-1">Try adjusting your filters</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-slate-50 border-b border-gray-100">
-                <tr>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Instrument</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Issuer</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Type</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Sector</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Amount</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Standard</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Issue Date</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50">
-                {filtered.map((inst) => (
-                  <tr key={inst.id} className="hover:bg-slate-50 transition-colors cursor-pointer">
-                    <td className="px-4 py-3">
-                      <Link href={`/instruments/${inst.id}`} className="font-medium text-green-700 hover:underline">{inst.title}</Link>
-                      <p className="text-xs text-slate-400">Arranger: {inst.arranger ?? "—"}</p>
-                    </td>
-                    <td className="px-4 py-3 text-slate-600">
-                      {(inst.issuers as { name: string } | undefined)?.name ?? "—"}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`text-xs px-2 py-1 rounded-full capitalize font-medium ${TYPE_COLORS[inst.instrument_type] ?? "bg-gray-100 text-gray-600"}`}>
-                        {inst.instrument_type}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-slate-600">{inst.sector ?? "—"}</td>
-                    <td className="px-4 py-3 text-right font-semibold text-slate-800">{fmt(inst.amount_usd)}</td>
-                    <td className="px-4 py-3 text-slate-600">{inst.esg_standard ?? "—"}</td>
-                    <td className="px-4 py-3 text-slate-500">{inst.issue_date ?? "—"}</td>
-                    <td className="px-4 py-3">
-                      <span className={`text-xs px-2 py-1 rounded-full capitalize font-medium ${STATUS_COLORS[inst.status] ?? "bg-gray-100 text-gray-500"}`}>
-                        {inst.status}
-                      </span>
-                    </td>
+
+          {/* Desktop: Table */}
+          <div className="hidden md:block bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-slate-50 border-b border-gray-100">
+                  <tr>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Instrument</th>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Issuer</th>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Type</th>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Sector</th>
+                    <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Amount</th>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Standard</th>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Issue Date</th>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-gray-50">
+                  {filtered.map((inst) => (
+                    <tr key={inst.id} className="hover:bg-slate-50 transition-colors cursor-pointer">
+                      <td className="px-4 py-3">
+                        <Link href={`/instruments/${inst.id}`} className="font-medium text-green-700 hover:underline">{inst.title}</Link>
+                        <p className="text-xs text-slate-400">Arranger: {inst.arranger ?? "—"}</p>
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">{issuerName(inst)}</td>
+                      <td className="px-4 py-3">
+                        <span className={`text-xs px-2 py-1 rounded-full capitalize font-medium ${TYPE_COLORS[inst.instrument_type] ?? "bg-gray-100 text-gray-600"}`}>{inst.instrument_type}</span>
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">{inst.sector ?? "—"}</td>
+                      <td className="px-4 py-3 text-right font-semibold text-slate-800">{fmt(inst.amount_usd)}</td>
+                      <td className="px-4 py-3 text-slate-600">{inst.esg_standard ?? "—"}</td>
+                      <td className="px-4 py-3 text-slate-500">{inst.issue_date ?? "—"}</td>
+                      <td className="px-4 py-3">
+                        <span className={`text-xs px-2 py-1 rounded-full capitalize font-medium ${STATUS_COLORS[inst.status] ?? "bg-gray-100 text-gray-500"}`}>{inst.status}</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 }
