@@ -36,7 +36,7 @@ export default function IssuersPage() {
     async function load() {
       const [{ data: issuerData }, { data: instrumentData }] = await Promise.all([
         supabase.from("issuers").select("*"),
-        supabase.from("instruments").select("issuer_id, amount_usd, instrument_type"),
+        supabase.from("instruments").select("*"),
       ]);
 
       const instruments: Instrument[] = instrumentData ?? [];
