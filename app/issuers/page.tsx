@@ -7,7 +7,7 @@ import { exportToCsv } from "@/lib/exportCsv";
 
 const TYPE_COLORS: Record<string, string> = {
   bank: "bg-blue-100 text-blue-700",
-  corporate: "bg-green-100 text-green-700",
+  corporate: "bg-green-100 text-[#1f4286]",
   sovereign: "bg-orange-100 text-orange-700",
   "financial institution": "bg-purple-100 text-purple-700",
 };
@@ -116,9 +116,9 @@ export default function IssuersPage() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
             { label: "Total Issuers", value: String(filtered.length), color: "text-slate-800" },
-            { label: "Total Issuance", value: fmt(grandTotal), color: "text-green-600" },
+            { label: "Total Issuance", value: fmt(grandTotal), color: "text-[#1f4286]" },
             { label: "Banks", value: String(filtered.filter((i) => i.type === "bank").length), color: "text-blue-600" },
-            { label: "Corporates", value: String(filtered.filter((i) => i.type === "corporate").length), color: "text-green-600" },
+            { label: "Corporates", value: String(filtered.filter((i) => i.type === "corporate").length), color: "text-[#1f4286]" },
           ].map((s) => (
             <div key={s.label} className="bg-white rounded-xl border border-gray-100 p-4 shadow-sm">
               <p className="text-xs text-slate-500 font-medium">{s.label}</p>
@@ -165,12 +165,12 @@ export default function IssuersPage() {
               placeholder="Search by issuer name or country..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="flex-1 min-w-48 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-green-500"
+              className="flex-1 min-w-48 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-700"
             />
-            <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-green-500">
+            <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-700">
               {types.map((t) => <option key={t} value={t}>{t === "all" ? "All Types" : t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
             </select>
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-green-500">
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-700">
               <option value="total_usd">Sort: Largest Issuance</option>
               <option value="instrument_count">Sort: Most Instruments</option>
               <option value="name">Sort: Name A–Z</option>
@@ -186,7 +186,7 @@ export default function IssuersPage() {
                     <div>
                       <p className="font-semibold text-slate-800">{issuer.name}</p>
                       {issuer.website && (
-                        <a href={issuer.website} target="_blank" rel="noopener noreferrer" className="text-xs text-green-600 hover:underline">{issuer.website.replace("https://", "")}</a>
+                        <a href={issuer.website} target="_blank" rel="noopener noreferrer" className="text-xs text-[#1f4286] hover:underline">{issuer.website.replace("https://", "")}</a>
                       )}
                     </div>
                     <span className={`text-xs px-2 py-0.5 rounded-full capitalize font-medium shrink-0 ${TYPE_COLORS[issuer.type] ?? "bg-gray-100 text-gray-600"}`}>{issuer.type}</span>
@@ -233,7 +233,7 @@ export default function IssuersPage() {
                         <td className="px-4 py-4">
                           <p className="font-semibold text-slate-800">{issuer.name}</p>
                           {issuer.website && (
-                            <a href={issuer.website} target="_blank" rel="noopener noreferrer" className="text-xs text-green-600 hover:underline">
+                            <a href={issuer.website} target="_blank" rel="noopener noreferrer" className="text-xs text-[#1f4286] hover:underline">
                               {issuer.website.replace("https://", "")}
                             </a>
                           )}

@@ -7,7 +7,7 @@ import { Instrument } from "@/lib/types";
 import { exportToCsv } from "@/lib/exportCsv";
 
 const TYPE_COLORS: Record<string, string> = {
-  "green bond": "bg-green-100 text-green-700",
+  "green bond": "bg-green-100 text-[#1f4286]",
   "social bond": "bg-blue-100 text-blue-700",
   "sustainability bond": "bg-teal-100 text-teal-700",
   "sustainability-linked bond": "bg-purple-100 text-purple-700",
@@ -15,7 +15,7 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  active: "bg-green-50 text-green-600",
+  active: "bg-blue-50 text-[#1f4286]",
   matured: "bg-gray-100 text-gray-500",
   cancelled: "bg-red-50 text-red-500",
 };
@@ -98,15 +98,15 @@ export default function InstrumentsPage() {
           placeholder="Search by name, issuer or sector..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 min-w-48 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-green-500"
+          className="flex-1 min-w-48 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-700"
         />
-        <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-green-500">
+        <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-700">
           {types.map((t) => <option key={t} value={t}>{t === "all" ? "All Types" : t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
         </select>
-        <select value={sectorFilter} onChange={(e) => setSectorFilter(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-green-500">
+        <select value={sectorFilter} onChange={(e) => setSectorFilter(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-700">
           {sectors.map((s) => <option key={s} value={s}>{s === "all" ? "All Sectors" : s}</option>)}
         </select>
-        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-green-500">
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-700">
           <option value="issue_date">Sort: Latest First</option>
           <option value="amount_usd">Sort: Largest First</option>
           <option value="title">Sort: A–Z</option>
@@ -118,7 +118,7 @@ export default function InstrumentsPage() {
         <div className="flex items-center gap-4 text-sm text-slate-500">
           <span><span className="font-semibold text-slate-800">{filtered.length}</span> instruments</span>
           <span>·</span>
-          <span>Total: <span className="font-semibold text-green-600">{fmt(totalAmount)}</span></span>
+          <span>Total: <span className="font-semibold text-[#1f4286]">{fmt(totalAmount)}</span></span>
           {(search || typeFilter !== "all" || sectorFilter !== "all") && (
             <button onClick={() => { setSearch(""); setTypeFilter("all"); setSectorFilter("all"); }} className="text-xs text-red-500 hover:underline ml-auto">
               Clear filters
@@ -148,10 +148,10 @@ export default function InstrumentsPage() {
         <>
           <div className="block md:hidden space-y-3">
             {filtered.map((inst) => (
-              <Link key={inst.id} href={`/instruments/${inst.id}`} className="block bg-white rounded-xl border border-gray-100 p-4 shadow-sm hover:border-green-200 transition-colors">
+              <Link key={inst.id} href={`/instruments/${inst.id}`} className="block bg-white rounded-xl border border-gray-100 p-4 shadow-sm hover:border-blue-200 transition-colors">
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <p className="font-semibold text-slate-800 text-sm leading-snug">{inst.title}</p>
-                  <p className="text-sm font-bold text-green-600 shrink-0">{fmt(inst.amount_usd)}</p>
+                  <p className="text-sm font-bold text-[#1f4286] shrink-0">{fmt(inst.amount_usd)}</p>
                 </div>
                 <p className="text-xs text-slate-500 mb-2">{issuerName(inst)}</p>
                 <div className="flex flex-wrap gap-1.5">
@@ -185,7 +185,7 @@ export default function InstrumentsPage() {
                   {filtered.map((inst) => (
                     <tr key={inst.id} className="hover:bg-slate-50 transition-colors cursor-pointer">
                       <td className="px-4 py-3">
-                        <Link href={`/instruments/${inst.id}`} className="font-medium text-green-700 hover:underline">{inst.title}</Link>
+                        <Link href={`/instruments/${inst.id}`} className="font-medium text-[#1f4286] hover:underline">{inst.title}</Link>
                         <p className="text-xs text-slate-400">Arranger: {inst.arranger ?? "—"}</p>
                       </td>
                       <td className="px-4 py-3 text-slate-600">{issuerName(inst)}</td>

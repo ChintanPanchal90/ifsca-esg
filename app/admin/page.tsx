@@ -214,14 +214,14 @@ export default function AdminPage() {
   const F = ({ label, value, onChange, type = "text", required = false, placeholder = "" }: { label: string; value: string; onChange: (v: string) => void; type?: string; required?: boolean; placeholder?: string }) => (
     <div>
       <label className="block text-xs font-medium text-gray-600 mb-1">{label}{required && <span className="text-red-500 ml-0.5">*</span>}</label>
-      <input type={type} value={value} onChange={(e) => onChange(e.target.value)} required={required} placeholder={placeholder} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-green-500" />
+      <input type={type} value={value} onChange={(e) => onChange(e.target.value)} required={required} placeholder={placeholder} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-700" />
     </div>
   );
 
   const S = ({ label, value, onChange, options }: { label: string; value: string; onChange: (v: string) => void; options: { value: string; label: string }[] }) => (
     <div>
       <label className="block text-xs font-medium text-gray-600 mb-1">{label}</label>
-      <select value={value} onChange={(e) => onChange(e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-green-500">
+      <select value={value} onChange={(e) => onChange(e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-700">
         {options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
       </select>
     </div>
@@ -237,7 +237,7 @@ export default function AdminPage() {
           <p className="text-sm text-slate-500 mt-1">Add, edit and delete ESG records</p>
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={openAdd} className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
+          <button onClick={openAdd} className="bg-[#1f4286] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#17326a] transition-colors">
             + Add Record
           </button>
           <button
@@ -255,7 +255,7 @@ export default function AdminPage() {
           <button
             key={t.key}
             onClick={() => { setTab(t.key); setShowForm(false); setMessage(""); }}
-            className={`shrink-0 px-3 sm:px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${tab === t.key ? "border-green-600 text-green-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}
+            className={`shrink-0 px-3 sm:px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${tab === t.key ? "border-[#1f4286] text-[#1f4286]" : "border-transparent text-slate-500 hover:text-slate-700"}`}
           >
             {t.label} <span className="ml-1 text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">{t.count}</span>
           </button>
@@ -263,7 +263,7 @@ export default function AdminPage() {
       </div>
 
       {message && (
-        <div className={`px-4 py-3 rounded-lg text-sm ${message.startsWith("Error") ? "bg-red-50 text-red-700" : "bg-green-50 text-green-700"}`}>
+        <div className={`px-4 py-3 rounded-lg text-sm ${message.startsWith("Error") ? "bg-red-50 text-red-700" : "bg-blue-50 text-[#1f4286]"}`}>
           {message}
         </div>
       )}
@@ -282,7 +282,7 @@ export default function AdminPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-medium text-gray-600 mb-1">Issuer <span className="text-red-500">*</span></label>
-                  <select value={instrForm.issuer_id} onChange={(e) => setInstrForm((f) => ({ ...f, issuer_id: e.target.value }))} required className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-green-500">
+                  <select value={instrForm.issuer_id} onChange={(e) => setInstrForm((f) => ({ ...f, issuer_id: e.target.value }))} required className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-700">
                     <option value="">Select issuer...</option>
                     {issuers.map((i) => <option key={i.id} value={i.id}>{i.name}</option>)}
                   </select>
@@ -339,7 +339,7 @@ export default function AdminPage() {
             )}
 
             <div className="flex gap-3 pt-2">
-              <button type="submit" disabled={saving} className="bg-green-600 text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors disabled:opacity-60">
+              <button type="submit" disabled={saving} className="bg-[#1f4286] text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-[#17326a] transition-colors disabled:opacity-60">
                 {saving ? "Saving..." : editId !== null ? "Save Changes" : "Add Record"}
               </button>
               <button type="button" onClick={() => setShowForm(false)} className="px-6 py-2.5 rounded-lg text-sm font-medium border border-gray-200 text-gray-700 hover:bg-gray-50">

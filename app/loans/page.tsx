@@ -121,7 +121,7 @@ export default function LoansPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           {[
             { label: "Total ESG Lending", value: fmt(grandTotal), color: "text-slate-800" },
-            { label: "Green Loans", value: fmt(totalGreen), color: "text-green-600" },
+            { label: "Green Loans", value: fmt(totalGreen), color: "text-[#1f4286]" },
             { label: "Social Loans", value: fmt(totalSocial), color: "text-blue-600" },
             { label: "Sustainability Loans", value: fmt(totalSustainability), color: "text-teal-600" },
             { label: "Sustainability-Linked", value: fmt(totalSustainabilityLinked), color: "text-purple-600" },
@@ -142,9 +142,9 @@ export default function LoansPage() {
           placeholder="Search by bank name..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 min-w-48 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-green-500"
+          className="flex-1 min-w-48 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-700"
         />
-        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-green-500">
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-700">
           <option value="total_usd">Sort: Largest Total</option>
           <option value="green">Sort: Largest Green</option>
           <option value="bank_name">Sort: Bank A–Z</option>
@@ -179,7 +179,7 @@ export default function LoansPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   {[
-                    { label: "Green", value: b.green, color: "text-green-600" },
+                    { label: "Green", value: b.green, color: "text-[#1f4286]" },
                     { label: "Social", value: b.social, color: "text-blue-600" },
                     { label: "Sustainability", value: b.sustainability, color: "text-teal-600" },
                     { label: "Sust.-Linked", value: b.sustainability_linked, color: "text-purple-600" },
@@ -223,7 +223,7 @@ export default function LoansPage() {
                           <p className="text-xs text-slate-400 mt-0.5">{b.loan_count} loan {b.loan_count === 1 ? "record" : "records"}</p>
                         </td>
                         <td className="px-4 py-4 text-right font-bold text-slate-800">{fmt(b.total_usd)}</td>
-                        <td className="px-4 py-4 text-right text-green-600 font-medium">{b.green > 0 ? fmt(b.green) : "—"}</td>
+                        <td className="px-4 py-4 text-right text-[#1f4286] font-medium">{b.green > 0 ? fmt(b.green) : "—"}</td>
                         <td className="px-4 py-4 text-right text-blue-600 font-medium">{b.social > 0 ? fmt(b.social) : "—"}</td>
                         <td className="px-4 py-4 text-right text-teal-600 font-medium">{b.sustainability > 0 ? fmt(b.sustainability) : "—"}</td>
                         <td className="px-4 py-4 text-right text-purple-600 font-medium">{b.sustainability_linked > 0 ? fmt(b.sustainability_linked) : "—"}</td>
@@ -245,7 +245,7 @@ export default function LoansPage() {
                   <tr>
                     <td className="px-4 py-3 font-bold text-slate-800">Total ({filtered.length} banks)</td>
                     <td className="px-4 py-3 text-right font-bold text-slate-800">{fmt(grandTotal)}</td>
-                    <td className="px-4 py-3 text-right font-bold text-green-600">{fmt(totalGreen)}</td>
+                    <td className="px-4 py-3 text-right font-bold text-[#1f4286]">{fmt(totalGreen)}</td>
                     <td className="px-4 py-3 text-right font-bold text-blue-600">{fmt(totalSocial)}</td>
                     <td className="px-4 py-3 text-right font-bold text-teal-600">{fmt(totalSustainability)}</td>
                     <td className="px-4 py-3 text-right font-bold text-purple-600">{fmt(totalSustainabilityLinked)}</td>

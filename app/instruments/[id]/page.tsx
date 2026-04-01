@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabase";
 import { Instrument, Rating, Disclosure } from "@/lib/types";
 
 const TYPE_COLORS: Record<string, string> = {
-  "green bond": "bg-green-100 text-green-700",
+  "green bond": "bg-green-100 text-[#1f4286]",
   "social bond": "bg-blue-100 text-blue-700",
   "sustainability bond": "bg-teal-100 text-teal-700",
   "sustainability-linked bond": "bg-purple-100 text-purple-700",
@@ -15,7 +15,7 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  active: "bg-green-50 text-green-600",
+  active: "bg-blue-50 text-[#1f4286]",
   matured: "bg-gray-100 text-gray-500",
   cancelled: "bg-red-50 text-red-500",
 };
@@ -62,7 +62,7 @@ export default function InstrumentDetailPage() {
     <div className="max-w-4xl mx-auto px-4 py-20 text-center">
       <p className="text-4xl mb-3">📋</p>
       <p className="text-xl font-bold text-slate-800">Instrument not found</p>
-      <Link href="/instruments" className="mt-4 inline-block text-green-600 hover:underline text-sm">← Back to Bonds</Link>
+      <Link href="/instruments" className="mt-4 inline-block text-[#1f4286] hover:underline text-sm">← Back to Bonds</Link>
     </div>
   );
 
@@ -72,7 +72,7 @@ export default function InstrumentDetailPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-6">
 
       {/* Back */}
-      <Link href="/instruments" className="text-sm text-green-600 hover:underline">← Back to Bonds</Link>
+      <Link href="/instruments" className="text-sm text-[#1f4286] hover:underline">← Back to Bonds</Link>
 
       {/* Header */}
       <div className="bg-white rounded-xl border border-gray-100 p-6 shadow-sm">
@@ -90,7 +90,7 @@ export default function InstrumentDetailPage() {
             <p className="text-sm text-slate-500 mt-1">Issued by <span className="font-semibold text-slate-700">{issuer?.name ?? "—"}</span></p>
           </div>
           <div className="text-right shrink-0">
-            <p className="text-3xl font-bold text-green-600">{fmt(instrument!.amount_usd)}</p>
+            <p className="text-3xl font-bold text-[#1f4286]">{fmt(instrument!.amount_usd)}</p>
             <p className="text-xs text-slate-400 mt-0.5">{instrument!.original_currency !== "USD" ? `${instrument!.original_currency} ${instrument!.original_amount?.toLocaleString()}` : "USD"}</p>
           </div>
         </div>
@@ -132,7 +132,7 @@ export default function InstrumentDetailPage() {
                   <dt className="text-xs text-slate-400 font-medium">{row.label}</dt>
                   <dd className="text-xs text-slate-700 font-semibold text-right">
                     {row.label === "Website" && row.value ? (
-                      <a href={row.value} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:underline">{row.value.replace("https://", "")}</a>
+                      <a href={row.value} target="_blank" rel="noopener noreferrer" className="text-[#1f4286] hover:underline">{row.value.replace("https://", "")}</a>
                     ) : (row.value ?? "—")}
                   </dd>
                 </div>
@@ -176,7 +176,7 @@ export default function InstrumentDetailPage() {
                     <p className="text-xs text-slate-400 capitalize">{d.disclosure_type}{d.year ? ` · ${d.year}` : ""}</p>
                   </div>
                   {d.file_url ? (
-                    <a href={d.file_url} target="_blank" rel="noopener noreferrer" className="text-xs text-green-600 hover:underline shrink-0">View →</a>
+                    <a href={d.file_url} target="_blank" rel="noopener noreferrer" className="text-xs text-[#1f4286] hover:underline shrink-0">View →</a>
                   ) : (
                     <span className="text-xs text-slate-300">No file</span>
                   )}

@@ -31,7 +31,7 @@ export default function LoginPage() {
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 w-full max-w-sm">
 
         <div className="text-center mb-6">
-          <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">IFSCA</span>
+          <span className="bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded">IFSCA</span>
           <h1 className="text-xl font-bold text-slate-900 mt-3">Admin Login</h1>
           <p className="text-sm text-slate-500 mt-1">Sign in to access the admin panel</p>
         </div>
@@ -51,7 +51,7 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="admin@ifsca.gov.in"
-              className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-700"
             />
           </div>
           <div>
@@ -62,13 +62,13 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="••••••••"
-              className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-700"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-green-600 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors disabled:opacity-60"
+            className="w-full bg-[#1f4286] text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-[#17326a] transition-colors disabled:opacity-60"
           >
             {loading ? "Signing in..." : "Sign In"}
           </button>

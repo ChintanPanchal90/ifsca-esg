@@ -6,7 +6,7 @@ import { Fund } from "@/lib/types";
 import { exportToCsv } from "@/lib/exportCsv";
 
 const STRATEGY_COLORS: Record<string, string> = {
-  green: "bg-green-100 text-green-700",
+  green: "bg-green-100 text-[#1f4286]",
   transition: "bg-orange-100 text-orange-700",
   impact: "bg-blue-100 text-blue-700",
   "ESG screened": "bg-purple-100 text-purple-700",
@@ -156,12 +156,12 @@ export default function FundsPage() {
               placeholder="Search by fund name, manager or sector..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="flex-1 min-w-48 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-green-500"
+              className="flex-1 min-w-48 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-700"
             />
-            <select value={strategyFilter} onChange={(e) => setStrategyFilter(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-green-500">
+            <select value={strategyFilter} onChange={(e) => setStrategyFilter(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-700">
               {strategies.map((s) => <option key={s} value={s}>{s === "all" ? "All Strategies" : s.charAt(0).toUpperCase() + s.slice(1)}</option>)}
             </select>
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-green-500">
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white outline-none focus:ring-2 focus:ring-blue-700">
               <option value="aum_usd">Sort: Largest AUM</option>
               <option value="fund_name">Sort: Name A–Z</option>
               <option value="fund_manager">Sort: Manager A–Z</option>

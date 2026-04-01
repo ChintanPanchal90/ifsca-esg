@@ -16,7 +16,7 @@ type Stats = {
 };
 
 const TYPE_COLORS: Record<string, string> = {
-  "green bond": "bg-green-100 text-green-700",
+  "green bond": "bg-green-100 text-[#1f4286]",
   "social bond": "bg-blue-100 text-blue-700",
   "sustainability bond": "bg-teal-100 text-teal-700",
   "sustainability-linked bond": "bg-purple-100 text-purple-700",
@@ -78,8 +78,8 @@ export default function Dashboard() {
           <h1 className="text-2xl font-bold text-slate-900">ESG Intelligence Dashboard</h1>
           <p className="text-sm text-slate-500 mt-1">GIFT IFSC — Centralized ESG Disclosure Repository</p>
         </div>
-        <span className="inline-flex items-center gap-1.5 bg-green-50 text-green-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-green-200">
-          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+        <span className="inline-flex items-center gap-1.5 bg-blue-50 text-[#1f4286] text-xs font-semibold px-3 py-1.5 rounded-full border border-blue-200">
+          <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
           Live Data
         </span>
       </div>
@@ -92,7 +92,7 @@ export default function Dashboard() {
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
-            { label: "Total ESG Issuance", value: fmt(stats!.totalIssuance), sub: `${stats!.instrumentCount} instruments`, color: "text-green-600" },
+            { label: "Total ESG Issuance", value: fmt(stats!.totalIssuance), sub: `${stats!.instrumentCount} instruments`, color: "text-[#1f4286]" },
             { label: "Total ESG Loans", value: fmt(stats!.totalLoans), sub: `${stats!.loanCount} loan records`, color: "text-blue-600" },
             { label: "Fund AUM", value: fmt(stats!.totalAUM), sub: `${stats!.fundCount} funds`, color: "text-purple-600" },
             { label: "Registered Issuers", value: String(stats!.issuerCount), sub: "banks, corporates, sovereigns", color: "text-orange-600" },
@@ -124,7 +124,7 @@ export default function Dashboard() {
                       <span className="text-xs text-slate-500">{fmt(b.total)} · {pct}%</span>
                     </div>
                     <div className="w-full bg-gray-100 rounded-full h-1.5">
-                      <div className="bg-green-500 h-1.5 rounded-full" style={{ width: `${pct}%` }} />
+                      <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${pct}%` }} />
                     </div>
                   </div>
                 );
@@ -137,7 +137,7 @@ export default function Dashboard() {
         <div className="lg:col-span-2 bg-white rounded-xl border border-gray-100 p-5 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-slate-800">Recent Instruments</h2>
-            <Link href="/instruments" className="text-xs text-green-600 hover:underline font-medium">View all →</Link>
+            <Link href="/instruments" className="text-xs text-[#1f4286] hover:underline font-medium">View all →</Link>
           </div>
           {loading ? (
             <div className="space-y-3">{[...Array(5)].map((_, i) => <div key={i} className="h-12 bg-gray-100 rounded animate-pulse" />)}</div>
@@ -167,7 +167,7 @@ export default function Dashboard() {
       {/* Quick Links */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[
-          { href: "/instruments", label: "Bonds", desc: "View all ESG debt instruments", color: "border-green-200 hover:border-green-400" },
+          { href: "/instruments", label: "Bonds", desc: "View all ESG debt instruments", color: "border-blue-200 hover:border-blue-400" },
           { href: "/loans", label: "ESG Loans", desc: "Bank loan disclosures", color: "border-blue-200 hover:border-blue-400" },
           { href: "/funds", label: "ESG Funds", desc: "Registered fund data", color: "border-purple-200 hover:border-purple-400" },
           { href: "/issuers", label: "Issuers", desc: "All registered entities", color: "border-orange-200 hover:border-orange-400" },
