@@ -10,6 +10,7 @@ const links = [
   { href: "/loans", label: "Loans" },
   { href: "/funds", label: "Funds" },
   { href: "/issuers", label: "Issuers" },
+  { href: "/policy-measures", label: "Policy Measures" },
 ];
 
 export default function Navbar() {

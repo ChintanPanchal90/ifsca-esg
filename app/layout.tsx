@@ -41,6 +41,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   { label: "ESG Loans", href: "/loans" },
                   { label: "Funds", href: "/funds" },
                   { label: "Issuers", href: "/issuers" },
+                  { label: "Policy Measures", href: "/policy-measures" },
                 ].map((l) => (
                   <li key={l.href}><a href={l.href} className="hover:text-white transition-colors">{l.label}</a></li>
                 ))}
