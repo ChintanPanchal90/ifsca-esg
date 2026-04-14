@@ -19,14 +19,14 @@ const regulations = [
     date: "17/04/2025",
     title:
       "IFSCA (Capital Market Intermediaries) Regulations, 2025 – ESG Ratings and Data Product Providers (ERDPP)",
-    url: "https://ifsca.gov.in/Document/Legal/ifsca-capital-market-intermediaries-regulations-2025-17-04-202505042025055333.pdf",
+    url: "https://ifsca.gov.in/Common/PreviewPdf?id=21626bde60601ef44a0ed022016d0592&fileName=IFSCA__Capital_Market_Intermediaries__Regulations_2025___ESG_Rating_and_Data_Product_Providers__ERDPP__20250806_0607.pdf",
   },
   {
     sr: 2,
     date: "30/08/2024",
     title:
       "IFSCA (Listing) Regulations 2024 – Framework for ESG Labelled Debt Securities",
-    url: "https://ifsca.gov.in/Document/Legal/ifsca-listing-regulations-2024-30-08-202409022024102498.pdf",
+    url: "https://ifsca.gov.in/Common/PreviewPdf?id=21626bde60601ef44a0ed022016b1fa9&fileName=IFSCA__Listing__Regulations_2024___Framework_for_ESG_labelled_debt_securities_20250806_1155.pdf",
   },
 ];
 
@@ -36,41 +36,41 @@ const circulars = [
     date: "05/08/2025",
     title:
       "Master Circular for ESG Ratings and Data Products Providers in the IFSC",
-    url: "https://ifsca.gov.in/Document/Legal/master-circular-for-esg-ratings-and-data-products-providers-in-the-ifsc-05-08-202508052025112498.pdf",
+    url: "https://ifsca.gov.in/Common/PreviewPdf?id=21626bde60601ef44a0ed022016b12f1&fileName=Master_Circular_for_ESG_Ratings_and_Data_Products_Providers_in_the_IFSC_20250806_1153.pdf",
   },
   {
     sr: 2,
     date: "29/07/2025",
     title: "Framework for Transition Bonds",
-    url: "https://ifsca.gov.in/Document/Legal/framework-for-transition-bonds-29-07-202507292025034498.pdf",
+    url: "https://ifsca.gov.in/Common/PreviewPdf?id=21626bde60601ef44a0ed022016b5046&fileName=Framework_for_Transition_Bonds_20250806_1207.pdf",
   },
   {
     sr: 3,
     date: "21/11/2024",
     title:
       "Principles to Mitigate the Risk of Greenwashing in ESG Labelled Debt Securities in the IFSC",
-    url: "https://ifsca.gov.in/Document/Legal/principles-to-mitigate-the-risk-of-greenwashing-in-esg-labelled-debt-securities-in-the-ifsc-21-11-202411212024044174.pdf",
+    url: "https://ifsca.gov.in/Common/PreviewPdf?id=21626bde60601ef44a0ed022016b2c71&fileName=Principles_to_mitigate_the_Risk_of_Greenwashing_in_ESG_labelled_debt_securities_in_the_IFSC_20250806_1155.pdf",
   },
   {
     sr: 4,
     date: "24/09/2024",
     title:
       "Trading and Settlement of Sovereign Green Bonds (SGrBs) in IFSC",
-    url: "https://ifsca.gov.in/Document/Legal/trading-and-settlement-of-sovereign-green-bonds-sgrbs-in-ifsc-24-09-202409242024094855.pdf",
+    url: "https://ifsca.gov.in/Common/PreviewPdf?id=21626bde60601ef44a0ed022016b313f&fileName=Trading_and_Settlement_of_Sovereign_Green_Bonds__SGrBs__in_IFSC_20250806_1156.pdf",
   },
   {
     sr: 5,
     date: "18/01/2023",
     title:
       "Disclosures by Fund Management Entities for Environmental, Social or Governance (ESG) Schemes",
-    url: "https://ifsca.gov.in/Document/Legal/disclosures-by-fund-management-entities-for-environmental-social-or-governance-esg-schemes-18-01-202301182023063998.pdf",
+    url: "https://ifsca.gov.in/Common/PreviewPdf?id=21626bde60601ef44a0ed022016b3c3f&fileName=Disclosures_by_Fund_Management_Entities_for_Environmental__Social_or_Governance__ESG__Schemes_20250806_1156.pdf",
   },
   {
     sr: 6,
     date: "26/04/2022",
     title:
       "Guidance Framework on Sustainable and Sustainability Linked Lending by Financial Institutions",
-    url: "https://ifsca.gov.in/Document/Legal/guidance-framework-on-sustainable-and-sustainability-linked-lending-by-financial-institutions-26-04-202204262022045599.pdf",
+    url: "https://ifsca.gov.in/Common/PreviewPdf?id=21626bde60601ef44a0ed022016b43d3&fileName=Guidance_framework_on_Sustainable_and_Sustainability_linked_lending_by_financial_institutions_20250806_1157.pdf",
   },
 ];
 
@@ -80,7 +80,7 @@ const government = [
     date: "29/08/2024",
     title:
       "RBI Scheme for Trading and Settlement of Sovereign Green Bonds in the International Financial Services Centre in India",
-    url: "https://ifsca.gov.in/Document/Legal/rbi-scheme-for-trading-and-settlement-of-sovereign-green-bonds-in-the-international-financial-services-centre-in-india-29-08-202409022024102756.pdf",
+    url: "https://ifsca.gov.in/Common/PreviewPdf?id=21626bde60601ef44a0ed022016b49a1&fileName=RBI_Scheme_for_Trading_and_Settlement_of_Sovereign_Green_Bonds_in_the_International_Financial_Services_Centre_in_India_20250806_1157.pdf",
   },
 ];
 
