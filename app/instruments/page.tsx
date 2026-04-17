@@ -20,10 +20,8 @@ const STATUS_COLORS: Record<string, string> = {
   cancelled: "bg-red-50 text-red-500",
 };
 
-function fmt(n: number) {
-  if (n >= 1e9) return `$${(n / 1e9).toFixed(2)}B`;
-  if (n >= 1e6) return `$${(n / 1e6).toFixed(0)}M`;
-  return `$${n.toLocaleString()}`;
+function fmtMn(n: number) {
+  return (n / 1_000_000).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 }
 
 export default function InstrumentsPage() {
@@ -118,7 +116,7 @@ export default function InstrumentsPage() {
         <div className="flex items-center gap-4 text-sm text-slate-500">
           <span><span className="font-semibold text-slate-800">{filtered.length}</span> instruments</span>
           <span>·</span>
-          <span>Total: <span className="font-semibold text-[#1f4286]">{fmt(totalAmount)}</span></span>
+          <span>Total: <span className="font-semibold text-[#1f4286]">{fmtMn(totalAmount)} USD Mn</span></span>
           {(search || typeFilter !== "all" || sectorFilter !== "all") && (
             <button onClick={() => { setSearch(""); setTypeFilter("all"); setSectorFilter("all"); }} className="text-xs text-red-500 hover:underline ml-auto">
               Clear filters
@@ -151,9 +149,9 @@ export default function InstrumentsPage() {
               <Link key={inst.id} href={`/instruments/${inst.id}`} className="block bg-white rounded-xl border border-gray-100 p-4 shadow-sm hover:border-blue-200 transition-colors">
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <p className="font-semibold text-slate-800 text-sm leading-snug">{inst.title}</p>
-                  <p className="text-sm font-bold text-[#1f4286] shrink-0">{fmt(inst.amount_usd)}</p>
+                  <p className="text-sm font-bold text-[#1f4286] shrink-0">{fmtMn(inst.amount_usd)} <span className="text-xs font-normal text-slate-400">USD Mn</span></p>
                 </div>
-                <p className="text-xs text-slate-500 mb-2">{issuerName(inst)}</p>
+                <Link href={`/instruments/${inst.id}`} target="_blank" className="text-xs text-[#1f4286] hover:underline font-medium mb-2 block">{issuerName(inst)}</Link>
                 <div className="flex flex-wrap gap-1.5">
                   <span className={`text-xs px-2 py-0.5 rounded-full capitalize font-medium ${TYPE_COLORS[inst.instrument_type] ?? "bg-gray-100 text-gray-600"}`}>{inst.instrument_type}</span>
                   <span className={`text-xs px-2 py-0.5 rounded-full capitalize font-medium ${STATUS_COLORS[inst.status] ?? "bg-gray-100 text-gray-500"}`}>{inst.status}</span>
@@ -175,7 +173,7 @@ export default function InstrumentsPage() {
                     <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Issuer</th>
                     <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Type</th>
                     <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Sector</th>
-                    <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Amount</th>
+                    <th className="text-right px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Amount (USD Mn)</th>
                     <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Standard</th>
                     <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Issue Date</th>
                     <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
@@ -188,12 +186,14 @@ export default function InstrumentsPage() {
                         <Link href={`/instruments/${inst.id}`} className="font-medium text-[#1f4286] hover:underline">{inst.title}</Link>
                         <p className="text-xs text-slate-400">Arranger: {inst.arranger ?? "—"}</p>
                       </td>
-                      <td className="px-4 py-3 text-slate-600">{issuerName(inst)}</td>
+                      <td className="px-4 py-3">
+                        <Link href={`/instruments/${inst.id}`} target="_blank" className="text-[#1f4286] hover:underline font-medium text-sm">{issuerName(inst)}</Link>
+                      </td>
                       <td className="px-4 py-3">
                         <span className={`text-xs px-2 py-1 rounded-full capitalize font-medium ${TYPE_COLORS[inst.instrument_type] ?? "bg-gray-100 text-gray-600"}`}>{inst.instrument_type}</span>
                       </td>
                       <td className="px-4 py-3 text-slate-600">{inst.sector ?? "—"}</td>
-                      <td className="px-4 py-3 text-right font-semibold text-slate-800">{fmt(inst.amount_usd)}</td>
+                      <td className="px-4 py-3 text-right font-semibold text-slate-800">{fmtMn(inst.amount_usd)}</td>
                       <td className="px-4 py-3 text-slate-600">{inst.esg_standard ?? "—"}</td>
                       <td className="px-4 py-3 text-slate-500">{inst.issue_date ?? "—"}</td>
                       <td className="px-4 py-3">

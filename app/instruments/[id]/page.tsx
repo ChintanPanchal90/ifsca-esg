@@ -20,10 +20,8 @@ const STATUS_COLORS: Record<string, string> = {
   cancelled: "bg-red-50 text-red-500",
 };
 
-function fmt(n: number) {
-  if (n >= 1e9) return `$${(n / 1e9).toFixed(2)}B`;
-  if (n >= 1e6) return `$${(n / 1e6).toFixed(0)}M`;
-  return `$${n.toLocaleString()}`;
+function fmtMn(n: number) {
+  return (n / 1_000_000).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 }
 
 export default function InstrumentDetailPage() {
@@ -90,8 +88,13 @@ export default function InstrumentDetailPage() {
             <p className="text-sm text-slate-500 mt-1">Issued by <span className="font-semibold text-slate-700">{issuer?.name ?? "—"}</span></p>
           </div>
           <div className="text-right shrink-0">
-            <p className="text-3xl font-bold text-[#1f4286]">{fmt(instrument!.amount_usd)}</p>
-            <p className="text-xs text-slate-400 mt-0.5">{instrument!.original_currency !== "USD" ? `${instrument!.original_currency} ${instrument!.original_amount?.toLocaleString()}` : "USD"}</p>
+            <p className="text-3xl font-bold text-[#1f4286]">{fmtMn(instrument!.amount_usd)}</p>
+            <p className="text-xs text-slate-400 mt-0.5">USD Million</p>
+            {instrument!.original_currency && instrument!.original_currency !== "USD" && (
+              <p className="text-xs text-slate-400 mt-0.5">
+                {instrument!.original_currency} {fmtMn(instrument!.original_amount)} Mn
+              </p>
+            )}
           </div>
         </div>
       </div>
