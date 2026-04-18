@@ -22,7 +22,8 @@ export default function LoginPage() {
       setError("Invalid email or password. Please try again.");
       setLoading(false);
     } else {
-      router.push("/admin");
+      const params = new URLSearchParams(window.location.search);
+      router.push(params.get("next") ?? "/analytics");
     }
   }
 
